@@ -1,0 +1,21 @@
+{
+	"tasks": {
+		"start": "deno run --env-file=.env --allow-env --allow-net --allow-write main.ts",
+		"commands": "deno run --env-file=.env --allow-env --allow-net scripts/list_commands.ts",
+		"check": "deno check main.ts",
+		"fmt": "deno fmt",
+		"fmt:check": "deno fmt --check"
+	},
+	"fmt": {
+		"useTabs": true,
+		"lineWidth": 120,
+		"indentWidth": 4,
+		"semiColons": true,
+		"singleQuote": true
+	},
+	"lint": {
+		"rules": {
+			"tags": ["recommended"]
+		}
+	}
+}
