@@ -168,6 +168,8 @@ async function main() {
 					return;
 				}
 
+				await interaction.defer(true);
+
 				try {
 					const activeThreads = await bot.rest.getActiveThreads(config.guildId);
 					const activeExisting = activeThreads.threads.find((thread) =>
@@ -176,7 +178,7 @@ async function main() {
 					);
 
 					if (activeExisting) {
-						await interaction.respond(`すでに存在します: <#${activeExisting.id}>`);
+						await interaction.edit(`すでに存在します: <#${activeExisting.id}>`);
 						return;
 					}
 
@@ -186,7 +188,7 @@ async function main() {
 					const archivedExisting = archivedThreads.threads.find((thread) => thread.name === postName);
 
 					if (archivedExisting) {
-						await interaction.respond(`すでに存在します: <#${archivedExisting.id}>`);
+						await interaction.edit(`すでに存在します: <#${archivedExisting.id}>`);
 						return;
 					}
 
@@ -211,7 +213,7 @@ async function main() {
 						interactionId: interaction.id.toString(),
 					});
 
-					await interaction.respond(`作成しました: <#${created.id}>`);
+					await interaction.edit(`作成しました: <#${created.id}>`);
 				} catch (error) {
 					const discordError = getDiscordErrorCause(error);
 					await log('error', 'times_forum_post_create_failed', {
@@ -223,16 +225,14 @@ async function main() {
 					});
 
 					if (discordError?.status === 403) {
-						await interaction.respond(
+						await interaction.edit(
 							'作成できませんでした: Bot が times Forum にアクセスできないか、Post 作成権限が不足しています。',
-							{ isPrivate: true },
 						);
 						return;
 					}
 
-					await interaction.respond(
+					await interaction.edit(
 						'内部エラーにより作成できませんでした。Forum の tag 必須設定と Bot 権限を確認してください。',
-						{ isPrivate: true },
 					);
 				}
 			},
